@@ -58,7 +58,7 @@ export default function Hero() {
             <div className="relative w-56 h-56 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl">
 
               <img
-                src="../../images/profile.jpg"
+                src="./images/profile.jpg"
                 alt="Tesfalegn Petros"
                 className="w-full h-full object-cover"
               />
