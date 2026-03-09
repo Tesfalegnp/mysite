@@ -1,9 +1,9 @@
 // C:\Users\Hope\Desktop\Project_package\mysite\src\components\Skills.tsx
 import { 
   Brain, Eye, Code, Server, Smartphone, Database, GitBranch, Cpu,
-  Cloud, Shield, TestTube, Palette, PenTool, Terminal, Globe, Lock,
-  Layers, Zap, BarChart, PieChart, LineChart, Box, Boxes, Workflow
-} from 'lucide-react';
+  Cloud, Shield, TestTube, Palette, PenTool, Terminal, Globe,
+  Layers, Zap, BarChart, Box, Boxes, Workflow
+} from 'lucide-react'; // Removed 'Lock', 'PieChart'
 import { useState } from 'react';
 
 export default function Skills() {
@@ -52,7 +52,7 @@ export default function Skills() {
         { name: 'Python', level: 90, icon: Brain },
         { name: 'Express.js', level: 85, icon: Server },
         { name: 'REST APIs', level: 90, icon: Globe },
-        { name: 'GraphQL', level: 70, icon: LineChart },
+        { name: 'GraphQL', level: 70, icon: BarChart },
         { name: 'Django', level: 75, icon: Shield },
         { name: 'Flask', level: 80, icon: TestTube }
       ],

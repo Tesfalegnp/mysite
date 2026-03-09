@@ -1,5 +1,5 @@
 // C:\Users\Hope\Desktop\Project_package\mysite\src\components\Projects.tsx
-import { ExternalLink, Github, Eye, Code, Star, GitFork } from 'lucide-react';
+import { ExternalLink, Github, Eye, Star, GitFork } from 'lucide-react'; // Remove 'Code'
 import { useState } from 'react';
 
 export default function Projects() {

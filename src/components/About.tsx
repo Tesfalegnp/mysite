@@ -1,5 +1,5 @@
 // C:\Users\Hope\Desktop\Project_package\mysite\src\components\About.tsx
-import { GraduationCap, Briefcase, Users, Award, BookOpen, Target, Code2, Brain, Globe, Rocket } from 'lucide-react';
+import { GraduationCap, Briefcase, Award } from 'lucide-react'; // Remove unused imports
 
 export default function About() {
   return (
