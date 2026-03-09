@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/mysite/', // Change this to your repository name
+  base: process.env.NODE_ENV === 'production' ? '/mysite/' : '/',
   build: {
     outDir: 'dist',
     sourcemap: true,
