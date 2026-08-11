@@ -1,9 +1,31 @@
 // src/components/Hero.tsx
 
 import { Github, Mail, Download, ArrowDown, Phone, Linkedin, Code, Facebook } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoError, setVideoError] = useState(false);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      try {
+        videoRef.current.playbackRate = 0.6;
+      } catch (err) {
+        console.warn('Unable to set video playback rate:', err);
+      }
+    }
+  }, []);
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      try {
+        videoRef.current.playbackRate = 0.6;
+      } catch (err) {
+        console.warn('Unable to set video playback rate:', err);
+      }
+    }
+  };
 
   const roles = [
     "AI Engineer",
@@ -34,14 +56,32 @@ export default function Hero() {
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+      {/* Background Video */}
+      {!videoError && (
+        <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0 motion-reduce:hidden">
+          <video
+            ref={videoRef}
+            src="/images/make_just_working_office_short.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            onLoadedMetadata={handleLoadedMetadata}
+            onError={() => setVideoError(true)}
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+      )}
+
+      {/* Dark / Gradient Overlay for Maximum Text Readability */}
+      <div className="absolute inset-0 bg-slate-950/75 bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-slate-950/90 pointer-events-none z-[1]" />
 
       {/* Background */}
-      <div className="absolute inset-0">
-
+      <div className="absolute inset-0 z-[2] pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-
       </div>
 
       <div className="container mx-auto px-6 relative z-10">

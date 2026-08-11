@@ -1,214 +1,118 @@
-// C:\Users\Hope\Desktop\Project_package\mysite\src\components\Skills.tsx
-import { 
-  Brain, Eye, Code, Server, Smartphone, Database, GitBranch, Cpu,
-  Cloud, Shield, TestTube, Palette, PenTool, Terminal, Globe,
-  Layers, Zap, BarChart, Box, Boxes, Workflow
-} from 'lucide-react'; // Removed 'Lock', 'PieChart'
 import { useState } from 'react';
+import { Cpu, Code2, Server, Smartphone, Database, Bot, Workflow, Wrench } from 'lucide-react';
+import { skillsData } from '../data/skills';
+import { SkillDomain, SkillTier, Skill } from '../types';
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [selectedDomain, setSelectedDomain] = useState<SkillDomain | 'all'>('all');
+  const [selectedTier, setSelectedTier] = useState<SkillTier | 'all'>('all');
 
-  const skillCategories = [
-    {
-      id: 'ai-ml',
-      name: 'AI & Machine Learning',
-      icon: Brain,
-      skills: [
-        { name: 'Machine Learning', level: 85, icon: Brain },
-        { name: 'Deep Learning', level: 80, icon: Layers },
-        { name: 'Neural Networks', level: 75, icon: Boxes },
-        { name: 'Computer Vision', level: 85, icon: Eye },
-        { name: 'NLP', level: 70, icon: PenTool },
-        { name: 'Model Training', level: 80, icon: Zap },
-        { name: 'TensorFlow', level: 75, icon: Workflow },
-        { name: 'PyTorch', level: 70, icon: Box },
-        { name: 'Scikit-learn', level: 85, icon: BarChart }
-      ],
-      color: 'purple'
-    },
-    {
-      id: 'frontend',
-      name: 'Frontend Development',
-      icon: Code,
-      skills: [
-        { name: 'React.js', level: 90, icon: Code },
-        { name: 'TypeScript', level: 85, icon: Terminal },
-        { name: 'JavaScript', level: 90, icon: Code },
-        { name: 'Tailwind CSS', level: 95, icon: Palette },
-        { name: 'HTML5/CSS3', level: 95, icon: Globe },
-        { name: 'Next.js', level: 75, icon: Layers },
-        { name: 'Redux', level: 80, icon: Workflow },
-        { name: 'Material-UI', level: 85, icon: Palette }
-      ],
-      color: 'blue'
-    },
-    {
-      id: 'backend',
-      name: 'Backend Development',
-      icon: Server,
-      skills: [
-        { name: 'Node.js', level: 85, icon: Server },
-        { name: 'Python', level: 90, icon: Brain },
-        { name: 'Express.js', level: 85, icon: Server },
-        { name: 'REST APIs', level: 90, icon: Globe },
-        { name: 'GraphQL', level: 70, icon: BarChart },
-        { name: 'Django', level: 75, icon: Shield },
-        { name: 'Flask', level: 80, icon: TestTube }
-      ],
-      color: 'green'
-    },
-    {
-      id: 'database',
-      name: 'Database & Tools',
-      icon: Database,
-      skills: [
-        { name: 'PostgreSQL', level: 85, icon: Database },
-        { name: 'MongoDB', level: 80, icon: Database },
-        { name: 'Supabase', level: 85, icon: Cloud },
-        { name: 'Firebase', level: 80, icon: Cloud },
-        { name: 'Prisma', level: 75, icon: Workflow },
-        { name: 'Redis', level: 70, icon: Zap }
-      ],
-      color: 'orange'
-    },
-    {
-      id: 'mobile',
-      name: 'Mobile Development',
-      icon: Smartphone,
-      skills: [
-        { name: 'Flutter', level: 85, icon: Smartphone },
-        { name: 'Dart', level: 80, icon: Code },
-        { name: 'React Native', level: 75, icon: Code },
-        { name: 'Mobile UI/UX', level: 85, icon: Palette }
-      ],
-      color: 'cyan'
-    },
-    {
-      id: 'devops',
-      name: 'DevOps & Tools',
-      icon: GitBranch,
-      skills: [
-        { name: 'Git', level: 90, icon: GitBranch },
-        { name: 'Docker', level: 75, icon: Boxes },
-        { name: 'CI/CD', level: 70, icon: Workflow },
-        { name: 'AWS', level: 65, icon: Cloud },
-        { name: 'Linux', level: 80, icon: Terminal },
-        { name: 'Jest', level: 75, icon: TestTube }
-      ],
-      color: 'red'
-    },
-    {
-      id: 'programming',
-      name: 'Programming Languages',
-      icon: Cpu,
-      skills: [
-        { name: 'Python', level: 90, icon: Brain },
-        { name: 'JavaScript', level: 90, icon: Code },
-        { name: 'TypeScript', level: 85, icon: Code },
-        { name: 'Dart', level: 80, icon: Code },
-        { name: 'SQL', level: 85, icon: Database },
-        { name: 'C++', level: 70, icon: Cpu }
-      ],
-      color: 'yellow'
-    }
+  const domainCategories: { id: SkillDomain | 'all'; label: string; icon: any }[] = [
+    { id: 'all', label: 'All Domains', icon: Cpu },
+    { id: 'ai-llm', label: 'AI & LLM', icon: Bot },
+    { id: 'frontend', label: 'Frontend', icon: Code2 },
+    { id: 'backend', label: 'Backend', icon: Server },
+    { id: 'database', label: 'Databases', icon: Database },
+    { id: 'mobile', label: 'Mobile AI', icon: Smartphone },
+    { id: 'automation', label: 'Automation', icon: Workflow },
+    { id: 'devops', label: 'DevOps', icon: Wrench },
   ];
 
-  const categories = [
-    { id: 'all', name: 'All Skills' },
-    ...skillCategories.map(cat => ({ id: cat.id, name: cat.name }))
-  ];
-
-  const filteredSkills = activeCategory === 'all' 
-    ? skillCategories 
-    : skillCategories.filter(cat => cat.id === activeCategory);
-
-  const getColorClasses = (color: string) => {
-    const colors = {
-      purple: 'from-purple-500 to-purple-600 bg-purple-100 text-purple-600',
-      blue: 'from-blue-500 to-blue-600 bg-blue-100 text-blue-600',
-      green: 'from-green-500 to-green-600 bg-green-100 text-green-600',
-      orange: 'from-orange-500 to-orange-600 bg-orange-100 text-orange-600',
-      cyan: 'from-cyan-500 to-cyan-600 bg-cyan-100 text-cyan-600',
-      red: 'from-red-500 to-red-600 bg-red-100 text-red-600',
-      yellow: 'from-yellow-500 to-yellow-600 bg-yellow-100 text-yellow-600'
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
+  const filteredSkills = skillsData.filter((skill: Skill) => {
+    if (selectedDomain !== 'all' && skill.domain !== selectedDomain) return false;
+    if (selectedTier !== 'all' && skill.tier !== selectedTier) return false;
+    return true;
+  });
 
   return (
-    <section id="skills" className="py-20 bg-slate-50">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-slate-900">
-            Skills & Expertise
+    <section id="skills" className="py-20 bg-[#0d1322] border-y border-slate-800/80 relative">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl space-y-12">
+        
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950/70 border border-purple-800/60 text-purple-300 text-xs font-mono">
+            <Cpu className="w-3.5 h-3.5" />
+            <span>INTERACTIVE SKILL ARCHITECTURE</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+            Technical Stack & <span className="text-gradient">Proficiencies</span>
           </h2>
-          <p className="text-center text-slate-600 mb-8 text-base sm:text-lg">
-            Technologies and tools I work with
+          <p className="text-slate-300 text-base sm:text-lg">
+            Categorized by engineering domains and verified production experience.
           </p>
+        </div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((category) => (
+        {/* Domain Filter Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {domainCategories.map((domain) => {
+            const IconComp = domain.icon;
+            return (
               <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === category.id
-                    ? 'bg-purple-600 text-white shadow-lg scale-105'
-                    : 'bg-white text-slate-600 hover:bg-purple-50'
+                key={domain.id}
+                onClick={() => setSelectedDomain(domain.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono transition-all ${
+                  selectedDomain === domain.id
+                    ? 'bg-purple-600 text-white font-semibold shadow-lg shadow-purple-950 scale-105'
+                    : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border border-slate-800'
                 }`}
               >
-                {category.name}
+                <IconComp className="w-3.5 h-3.5" />
+                <span>{domain.label}</span>
               </button>
-            ))}
-          </div>
-
-          {/* Skills Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredSkills.map((category) => {
-              const Icon = category.icon;
-              const colorClasses = getColorClasses(category.color);
-              
-              return (
-                <div
-                  key={category.id}
-                  className="bg-white p-6 rounded-xl shadow-sm hover:shadow-xl transition-all transform hover:-translate-y-2 border border-slate-200"
-                >
-                  <div className={`bg-gradient-to-br ${colorClasses.split(' ')[0]} ${colorClasses.split(' ')[1]} w-14 h-14 rounded-lg flex items-center justify-center mb-4`}>
-                    <Icon className="text-white" size={28} />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-4 text-slate-900">
-                    {category.name}
-                  </h3>
-                  
-                  <div className="space-y-4">
-                    {category.skills.map((skill, idx) => {
-                      const SkillIcon = skill.icon;
-                      return (
-                        <div key={idx}>
-                          <div className="flex items-center justify-between mb-1">
-                            <div className="flex items-center gap-2">
-                              <SkillIcon size={14} className={`${colorClasses.split(' ')[2]}`} />
-                              <span className="text-sm text-slate-700">{skill.name}</span>
-                            </div>
-                            <span className="text-xs font-medium text-slate-500">{skill.level}%</span>
-                          </div>
-                          <div className="w-full bg-slate-200 rounded-full h-1.5">
-                            <div 
-                              className={`bg-gradient-to-r ${colorClasses.split(' ')[0]} ${colorClasses.split(' ')[1]} h-1.5 rounded-full transition-all duration-500`}
-                              style={{ width: `${skill.level}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+            );
+          })}
         </div>
+
+        {/* Tier Filter Pills */}
+        <div className="flex items-center justify-center gap-3 text-xs font-mono text-slate-400">
+          <span>TIER:</span>
+          {(['all', 'core', 'applied', 'supporting'] as const).map((tier) => (
+            <button
+              key={tier}
+              onClick={() => setSelectedTier(tier)}
+              className={`capitalize px-3 py-1 rounded-lg border transition-colors ${
+                selectedTier === tier
+                  ? 'bg-purple-950 text-purple-300 border-purple-700 font-bold'
+                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+              }`}
+            >
+              {tier}
+            </button>
+          ))}
+        </div>
+
+        {/* Skills Cards Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredSkills.map((skill: Skill, idx: number) => (
+            <div
+              key={idx}
+              className="glass-card rounded-xl p-5 border border-slate-800 hover:border-purple-500/40 transition-all space-y-2 flex flex-col justify-between"
+            >
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-bold text-slate-100">{skill.name}</h3>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[10px] font-mono capitalize ${
+                      skill.tier === 'core'
+                        ? 'bg-purple-950 text-purple-300 border border-purple-800'
+                        : 'bg-slate-900 text-slate-400 border border-slate-800'
+                    }`}
+                  >
+                    {skill.tier}
+                  </span>
+                </div>
+                {skill.description && (
+                  <p className="text-xs text-slate-300 leading-relaxed">{skill.description}</p>
+                )}
+              </div>
+
+              <div className="pt-2 border-t border-slate-800/80 text-[10px] font-mono text-purple-400/80 uppercase">
+                {skill.domain}
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
